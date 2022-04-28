@@ -3,7 +3,7 @@ Created on 28 avr. 2022
 
 @author: Thomas
 '''
-import cogs.Munition as CM
+import cogs.Spam as CM
 import discord.ext.commands as DC
 import json
 import os
@@ -16,9 +16,7 @@ if __name__ == '__main__':
     bot = DC.Bot(
         command_prefix=data.get("PREFIX", "$ "),
         case_insensitive = True)
-    bot.add_cog(CM.Munition(bot))
-    
-    # bot.load_extension("cogs.Munition")
+    bot.add_cog(CM.Spam(bot))
     
     bot.run(data.get("TOKEN"))
     
