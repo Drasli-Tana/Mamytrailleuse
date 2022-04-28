@@ -12,7 +12,7 @@ if __name__ == '__main__':
     if os.path.exists("data/config.json"):
         with open("data/config.json") as file:
             data = json.load(file)
-        
+    
     bot = DC.Bot(
         command_prefix=data.get("PREFIX", "$ "),
         case_insensitive = True)
