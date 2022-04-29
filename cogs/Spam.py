@@ -4,6 +4,7 @@ Created on 28 avr. 2022
 @author: Thomas
 """
 import discord.ext.commands as DC
+import discord as DS
 import os
 import json
 import random as RD
@@ -22,7 +23,7 @@ class Spam(DC.Cog):
         else:
             self.quotes = list()
     
-    @DC.command("fire", help='Test', brief="Truc", usage="Temp")
+    @DC.command("fire", usage="<Cible...>[Compteur][Message]")
     async def fire(self, ctx):
         """
         Envoie une quantité définie de Pings aux utilisateurs spécifiés
@@ -44,19 +45,28 @@ class Spam(DC.Cog):
             message = " ".join(args[1:])
         
         if mentions:
-            for mention in mentions + [ctx.message.author]:
-                if mention.dm_channel is None:
-                    await mention.create_dm()
+            
+            if ctx.message.author.dm_channel is None:
+                await ctx.message.author.create_dm()
             
             await ctx.message.author.dm_channel.send(
                 f"Sending '{message}' {iterations} time(s) to " +
                 f"{' '.join([mention.mention for mention in mentions])}")
             
             for mention in mentions:
-                for message in (
-                    [message if message != "" else RD.choice(self.quotes)
-                    for _ in range(iterations)]):
-                    await mention.dm_channel.send("*" + message + "*")
+                if mention.dm_channel is None:
+                    try:
+                        await mention.create_dm()
+                    
+                    except DS.errors.HTTPException:
+                        pass
+                
+                    else:
+                        for message in (
+                            [message if message != "" else RD.choice(self.quotes)
+                            for _ in range(iterations)]):
+                            await mention.dm_channel.send("*" + message + "*")
+            
             
             await ctx.message.author.dm_channel.send("Done")
                 
