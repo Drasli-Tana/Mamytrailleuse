@@ -3,11 +3,12 @@ Created on 28 avr. 2022
 
 @author: Thomas
 """
-import discord.ext.commands as DC
-import discord as DS
 import os
 import json
 import random as RD
+
+import discord.ext.commands as DC
+import discord as DS
 
 class Spam(DC.Cog):
     """
